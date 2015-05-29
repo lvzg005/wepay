@@ -103,13 +103,20 @@ public class WxPay extends CordovaPlugin {
 		}
 		
 		byte[] buf = Util.httpPost(url, entity);
-		/*
+		if (buf == null) {
+			callbackContext.error("content is null.");
+			return false;
+		}
 		String content = new String(buf);
 		
 		if (content == null) {
 			callbackContext.error("content is null.");
 			return false;
+		} else {
+			callbackContext.error("content is " + content);
+			return false;
 		}
+		/*
 		Map<String,String> resultUnifiedorder = decodeXml(content);
 		if (resultUnifiedorder == null) {
 			callbackContext.error("resultUnifiedorder is null.");
