@@ -75,9 +75,12 @@ public class WxPay extends CordovaPlugin {
 			callbackContext.error(ERROR_WX_NOT_INSTALLED);
 			return false;
 		}
-		
-		getWXAPI().registerApp(Constants.WEPAY_APP_ID);
-		
+		try {
+			getWXAPI().registerApp(Constants.WEPAY_APP_ID);
+		} catch (Exception e) {
+			callbackContext.error(e.getMessage());
+			return false;
+		}
 		if (args == null) {
 			callbackContext.error("args is null.");
 			return false;
