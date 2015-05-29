@@ -45,7 +45,7 @@ public class WxPay extends CordovaPlugin {
 		
 		if (action.equals("wxPay")) {
 			// weixin pay
-			return this.wxPay(args, callbackContext);
+			return wxPay(args, callbackContext);
 		} else if(action.equals("isWXAppInstalled")){
 			
 			return isInstalled(callbackContext);
@@ -81,11 +81,8 @@ public class WxPay extends CordovaPlugin {
 			callbackContext.error(e.getMessage());
 			return false;
 		}
-		if (args == null) {
-			callbackContext.error("args is null.");
-			return false;
-		}
 		
+		/*
 		final JSONObject params = args.getJSONObject(0);
 		if (params == null) {
 			callbackContext.error("params is null.");
@@ -114,7 +111,7 @@ public class WxPay extends CordovaPlugin {
 			callbackContext.error("resultUnifiedorder is null.");
 			return false;
 		}
-
+		*/
 		//PayReq req = new PayReq();
 		//构造请求参数
 		//genPayReq(req,resultUnifiedorder);
