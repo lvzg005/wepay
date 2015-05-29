@@ -85,14 +85,34 @@ public class WxPay extends CordovaPlugin {
 		}
 		String ipAddress = params.getString("ipAddress");
 		//同一订单接口
-		Map<String,String> resultUnifiedorder = unifiedorder(ipAddress);
-			
-		PayReq req = new PayReq();
+		//Map<String,String> resultUnifiedorder = unifiedorder(ipAddress);
+		String url = String.format("https://api.mch.weixin.qq.com/pay/unifiedorder");
+		
+		String entity = genProductArgs(ipAddress);
+		if (entity == null) {
+			callbackContext.error("genProductArgs is null.");
+			return false;
+		}
+		byte[] buf = Util.httpPost(url, entity);
+
+		String content = new String(buf);
+		
+		if (content == null) {
+			callbackContext.error("content is null.");
+			return false;
+		}
+		Map<String,String> resultUnifiedorder = decodeXml(content);
+		if (resultUnifiedorder == null) {
+			callbackContext.error("resultUnifiedorder is null.");
+			return false;
+		}
+
+		//PayReq req = new PayReq();
 		//构造请求参数
-		genPayReq(req,resultUnifiedorder);
+		//genPayReq(req,resultUnifiedorder);
 		
 		//调用支付api
-		sendPayReq(req);
+		//sendPayReq(req);
 		
 		
 		callbackContext.success("true");
@@ -111,7 +131,7 @@ public class WxPay extends CordovaPlugin {
 		byte[] buf = Util.httpPost(url, entity);
 
 		String content = new String(buf);
-		Log.i(TAG, String.format("统一订单接口返回值：", content));
+		
 		Map<String,String> xml=decodeXml(content);
 
 		return xml;
@@ -136,7 +156,7 @@ public class WxPay extends CordovaPlugin {
 
 		req.sign = genPackageSign(signParams);
 
-		Log.e("orion", signParams.toString());
+		
 
 	}
 	private void sendPayReq(PayReq req) {
@@ -164,7 +184,7 @@ public class WxPay extends CordovaPlugin {
 
 			return xmlstring;
 		} catch (Exception e) {
-			Log.e("genProductArgs", e.getMessage());
+			
 			return null;
 		}
 	}
@@ -216,7 +236,7 @@ public class WxPay extends CordovaPlugin {
 
 			return xml;
 		} catch (Exception e) {
-			Log.e("orion",e.toString());
+			
 		}
 		return null;
 
