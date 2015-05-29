@@ -79,6 +79,10 @@ public class WxPay extends CordovaPlugin {
 		getWXAPI().registerApp(Constants.WEPAY_APP_ID);
 		
 		final JSONObject params = args.getJSONObject(0);
+		if (params == null) {
+			callbackContext.error("params is null.");
+			return false;
+		}
 		String ipAddress = params.getString("ipAddress");
 		//同一订单接口
 		Map<String,String> resultUnifiedorder = unifiedorder(ipAddress);
