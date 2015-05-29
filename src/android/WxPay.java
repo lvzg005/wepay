@@ -131,11 +131,11 @@ public class WxPay extends CordovaPlugin {
 		//sendPayReq(req);
 		
 		
-		callbackContext.success("true");
+		//callbackContext.success("true");
 		
-		currentCallbackContext = callbackContext;
+		//currentCallbackContext = callbackContext;
 		
-		return true;
+		//return true;
 	}
 	
 	private Map<String,String>  unifiedorder(String ipAddress) {
