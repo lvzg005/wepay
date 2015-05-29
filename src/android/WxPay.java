@@ -93,7 +93,7 @@ public class WxPay extends CordovaPlugin {
 		
 		//同一订单接口
 		//Map<String,String> resultUnifiedorder = unifiedorder(ipAddress);
-		/*
+		
 		String url = String.format("https://api.mch.weixin.qq.com/pay/unifiedorder");
 		
 		String entity = "";//genProductArgs(ipAddress);
@@ -101,8 +101,9 @@ public class WxPay extends CordovaPlugin {
 			callbackContext.error("genProductArgs is null.");
 			return false;
 		}
+		
 		byte[] buf = Util.httpPost(url, entity);
-
+		/*
 		String content = new String(buf);
 		
 		if (content == null) {
