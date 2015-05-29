@@ -3,7 +3,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     xmlns:rim="http://www.blackberry.com/ns/widgets"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    id="com.seadde.wepay.cordova"
+    id="cordova-plugin-wepay"
     version="0.1.0">
     <name>WxPay</name>
     <description>A cordova plugin, a JS version of WxPay SDK</description>
