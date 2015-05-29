@@ -78,6 +78,11 @@ public class WxPay extends CordovaPlugin {
 		
 		getWXAPI().registerApp(Constants.WEPAY_APP_ID);
 		
+		if (args == null) {
+			callbackContext.error("args is null.");
+			return false;
+		}
+		
 		final JSONObject params = args.getJSONObject(0);
 		if (params == null) {
 			callbackContext.error("params is null.");
