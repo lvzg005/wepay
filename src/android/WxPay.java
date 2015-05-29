@@ -45,7 +45,6 @@ public class WxPay extends CordovaPlugin {
 		
 		if (action.equals("wxPay")) {
 			// weixin pay
-			Log.i(TAG, "wxPay");
 			return this.wxPay(args, callbackContext);
 		} else if(action.equals("isWXAppInstalled")){
 			
