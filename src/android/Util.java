@@ -104,6 +104,13 @@ public class Util {
 		HttpPost httpPost = new HttpPost(url);
 		
 		try {
+			if (httpClient == null) {
+				return ("httpClient is null").getBytes();
+			}
+			if (httpPost == null) {
+				return ("httpPost is null").getBytes();
+			}
+			
 			httpPost.setEntity(new StringEntity(entity));
 			//httpPost.setHeader("Accept", "application/json");
 			//httpPost.setHeader("Content-type", "application/json");
