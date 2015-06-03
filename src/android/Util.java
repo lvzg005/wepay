@@ -118,7 +118,13 @@ public class Util {
 			try {
 				resp = httpClient.execute(httpPost);
 			} catch(Exception e) {
-				return ("execute:" + e.getMessage()).getBytes();
+			StringBuilder sb = new StringBuilder();
+			StackTraceElement[]  traces = ioe.getCause().getStackTrace();
+			for (StackTraceElement trace : traces) {
+				trace.toString();
+				sb.append(trace.toString());
+			}
+				return ("execute:" + sb.toString()).getBytes();
 			}
 			if (resp == null) {
 				return ("resp is null").getBytes();
