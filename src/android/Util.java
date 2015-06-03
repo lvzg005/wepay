@@ -119,7 +119,7 @@ public class Util {
 				resp = httpClient.execute(httpPost);
 			} catch(Exception e) {
 			StringBuilder sb = new StringBuilder();
-			StackTraceElement[]  traces = ioe.getCause().getStackTrace();
+			StackTraceElement[]  traces = e.getCause().getStackTrace();
 			for (StackTraceElement trace : traces) {
 				trace.toString();
 				sb.append(trace.toString());
