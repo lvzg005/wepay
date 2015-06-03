@@ -146,7 +146,7 @@ public class Util {
 				return EntityUtils.toByteArray(resp.getEntity());
 			} catch(Exception e1) {
 				StringBuilder sb = new StringBuilder();
-				tackTraceElement[]  traces = e1.getCause().getStackTrace();
+				StackTraceElement[]  traces = e1.getCause().getStackTrace();
 				for (StackTraceElement trace : traces) {
 					
 					sb.append(trace.toString());
@@ -156,7 +156,7 @@ public class Util {
 		} catch (Exception e2) {
 			Log.e(TAG, "httpPost exception, e = " + e2.getMessage());
 			StringBuilder sb = new StringBuilder();
-				tackTraceElement[]  traces = e2.getCause().getStackTrace();
+				StackTraceElement[]  traces = e2.getCause().getStackTrace();
 				for (StackTraceElement trace : traces) {
 					
 					sb.append(trace.toString());
