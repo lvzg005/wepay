@@ -155,7 +155,7 @@ public class WxPay extends CordovaPlugin {
 	
 	private void genPayReq(PayReq req,Map<String,String> resultUnifiedorder) {
 
-		req.appId = Constants.APP_ID;
+		req.appId = Constants.WEPAY_APP_ID;
 		req.partnerId = Constants.MCH_ID;
 		req.prepayId = resultUnifiedorder.get("prepay_id");
 		req.packageValue = "Sign=WXPay";
@@ -183,11 +183,12 @@ public class WxPay extends CordovaPlugin {
 	private String genProductArgs(String ipAddress) {
 		try {
             List<NameValuePair> packageParams = new LinkedList<NameValuePair>();
-			packageParams.add(new BasicNameValuePair("appid", Constants.APP_ID));
+			packageParams.add(new BasicNameValuePair("appid", Constants.WEPAY_APP_ID));
 			packageParams.add(new BasicNameValuePair("mch_id", Constants.MCH_ID));
 			packageParams.add(new BasicNameValuePair("body", Constants.PRODUCT_INFO));
+			packageParams.add(new BasicNameValuePair("detail", Constants.PRODUCT_DETAIL));
 			packageParams.add(new BasicNameValuePair("nonce_str", genNonceStr()));
-			packageParams.add(new BasicNameValuePair("notify_url", Constants.APP_ID));
+			packageParams.add(new BasicNameValuePair("notify_url", Constants.NOTIFY_URL));
 			packageParams.add(new BasicNameValuePair("out_trade_no",genOutTradNo()));
 			packageParams.add(new BasicNameValuePair("spbill_create_ip",ipAddress));
 			packageParams.add(new BasicNameValuePair("total_fee", Constants.TOTAL_AMT));
