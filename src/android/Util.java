@@ -114,9 +114,12 @@ public class Util {
 			httpPost.setEntity(new StringEntity(entity));
 			//httpPost.setHeader("Accept", "application/json");
 			//httpPost.setHeader("Content-type", "application/json");
-			
-			HttpResponse resp = httpClient.execute(httpPost);
-			
+			HttpResponse resp = null;
+			try {
+				resp = httpClient.execute(httpPost);
+			} catch(Exception e) {
+				return ("execute:" + e.getMessage()).getBytes();
+			}
 			if (resp == null) {
 				return ("resp is null").getBytes();
 			}
@@ -136,7 +139,7 @@ public class Util {
 			return EntityUtils.toByteArray(resp.getEntity());
 		} catch (Exception e) {
 			Log.e(TAG, "httpPost exception, e = " + e.getMessage());
-			e.printStackTrace();
+			
 			return ("errormsg:" + e.getMessage()).getBytes();
 		}
 	}
