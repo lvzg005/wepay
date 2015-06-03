@@ -105,20 +105,20 @@ public class Util {
 		
 		try {
 			httpPost.setEntity(new StringEntity(entity));
-			httpPost.setHeader("Accept", "application/json");
-			httpPost.setHeader("Content-type", "application/json");
+			//httpPost.setHeader("Accept", "application/json");
+			//httpPost.setHeader("Content-type", "application/json");
 			
 			HttpResponse resp = httpClient.execute(httpPost);
 			if (resp.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
 				Log.e(TAG, "httpGet fail, status code = " + resp.getStatusLine().getStatusCode());
-				return "resp.getStatusLine().getStatusCode()".getBytes();
+				return ("statuc_code:" + resp.getStatusLine().getStatusCode()).getBytes();
 			}
 
 			return EntityUtils.toByteArray(resp.getEntity());
 		} catch (Exception e) {
 			Log.e(TAG, "httpPost exception, e = " + e.getMessage());
 			e.printStackTrace();
-			return e.getMessage().getBytes();
+			return ("errormsg:" + e.getMessage()).getBytes();
 		}
 	}
 	
@@ -159,6 +159,7 @@ public class Util {
 	}  
 
 	private static HttpClient getNewHttpClient() { 
+		/**
 	   try { 
 	       KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType()); 
 	       trustStore.load(null, null); 
@@ -179,7 +180,9 @@ public class Util {
 	       return new DefaultHttpClient(ccm, params); 
 	   } catch (Exception e) { 
 	       return new DefaultHttpClient(); 
-	   } 
+	   }
+	   */
+	   return new DefaultHttpClient();
 	}
 	
 	public static byte[] readFromFile(String fileName, int offset, int len) {
