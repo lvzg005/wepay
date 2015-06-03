@@ -118,9 +118,7 @@ public class Util {
 				return ("getStatusLine is null ").getBytes();
 			}
 			
-			if (resp.getStatusLine().getStatusCode() == null) {
-				return ("getStatusCode is null ").getBytes();
-			}
+			
 			if (resp.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
 				Log.e(TAG, "httpGet fail, status code = " + resp.getStatusLine().getStatusCode());
 				return ("statuc_code:" + resp.getStatusLine().getStatusCode()).getBytes();
