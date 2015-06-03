@@ -16,8 +16,8 @@ public class Constants {
 	//API密钥，在商户平台设置
 	public static final String API_KEY = "FgsBuiOnSjq8kygV1NSH4hRBZzz7mvcv";
 	
-	public static final String PRODUCT_INFO = "手机延保-test";
-	public static final String PRODUCT_DETAIL = "手机延保-测试支付";
+	public static final String PRODUCT_INFO = "yanbao-test";
+	public static final String PRODUCT_DETAIL = "yanbaoguarantee-test";
 	
 	public static final String NOTIFY_URL = "http://112.124.69.93/wepay/notify.html";
 	
