@@ -95,8 +95,8 @@ public class WxPay extends CordovaPlugin {
 		
 		//同一订单接口
 		//Map<String,String> resultUnifiedorder = unifiedorder(ipAddress);
-		GetPrepayIdTask getPrepayId = new GetPrepayIdTask();
-		getPrepayId.execute();
+		//GetPrepayIdTask getPrepayId = new GetPrepayIdTask();
+		//getPrepayId.execute();
 		
 		/*
 		Map<String,String> resultUnifiedorder = decodeXml(content);
@@ -105,17 +105,18 @@ public class WxPay extends CordovaPlugin {
 			return false;
 		}
 		*/
-		//PayReq req = new PayReq();
+		String prepayId = "wx20150603160956ed6d42a5770685772720";//resultUnifiedorder.get("prepay_id");
+		PayReq req = new PayReq();
 		//构造请求参数
-		//genPayReq(req,resultUnifiedorder);
+		genPayReq(req,prepayId);
 		
 		//调用支付api
-		//sendPayReq(req);
+		sendPayReq(req);
 		
 		
-		//callbackContext.success("true");
+		callbackContext.success("true");
 		
-		//currentCallbackContext = callbackContext;
+		currentCallbackContext = callbackContext;
 		
 		return true;
 	}
@@ -135,11 +136,11 @@ public class WxPay extends CordovaPlugin {
 		return xml;
 	}
 	
-	private void genPayReq(PayReq req,Map<String,String> resultUnifiedorder) {
+	private void genPayReq(PayReq req,String prepayId) {
 
 		req.appId = Constants.WEPAY_APP_ID;
 		req.partnerId = Constants.MCH_ID;
-		req.prepayId = resultUnifiedorder.get("prepay_id");
+		req.prepayId = prepayId;
 		req.packageValue = "Sign=WXPay";
 		req.nonceStr = genNonceStr();
 		req.timeStamp = String.valueOf(genTimeStamp());
