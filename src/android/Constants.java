@@ -3,7 +3,7 @@ package com.seadde.wepay.cordova;
 public class Constants {
 	
 	
-	public static final String WEPAY_APP_ID = "wxfbe18a53c8235xxx";
+	public static final String WEPAY_APP_ID = "wxfbe18a53c8235ade";
 	/**
 	 *  appid 公众账号- 暂时不用
 	 *	请同时修改 androidmanifest.xml里面，.PayActivityd里的属性<data android:scheme="wxb4ba3c02aa476ea1"/>为新设置的appid
