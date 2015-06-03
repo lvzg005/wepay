@@ -184,9 +184,9 @@ public class WxPay extends CordovaPlugin {
 		try {
             List<NameValuePair> packageParams = new LinkedList<NameValuePair>();
 			packageParams.add(new BasicNameValuePair("appid", Constants.WEPAY_APP_ID));
-			packageParams.add(new BasicNameValuePair("mch_id", Constants.MCH_ID));
 			packageParams.add(new BasicNameValuePair("body", Constants.PRODUCT_INFO));
 			packageParams.add(new BasicNameValuePair("detail", Constants.PRODUCT_DETAIL));
+			packageParams.add(new BasicNameValuePair("mch_id", Constants.MCH_ID));
 			packageParams.add(new BasicNameValuePair("nonce_str", genNonceStr()));
 			packageParams.add(new BasicNameValuePair("notify_url", Constants.NOTIFY_URL));
 			packageParams.add(new BasicNameValuePair("out_trade_no",genOutTradNo()));
