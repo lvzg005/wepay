@@ -111,14 +111,14 @@ public class Util {
 			HttpResponse resp = httpClient.execute(httpPost);
 			if (resp.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
 				Log.e(TAG, "httpGet fail, status code = " + resp.getStatusLine().getStatusCode());
-				return null;
+				return "resp.getStatusLine().getStatusCode()".getBytes();;
 			}
 
 			return EntityUtils.toByteArray(resp.getEntity());
 		} catch (Exception e) {
 			Log.e(TAG, "httpPost exception, e = " + e.getMessage());
 			e.printStackTrace();
-			return null;
+			return e.getMessage().getBytes();
 		}
 	}
 	
