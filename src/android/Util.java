@@ -142,26 +142,12 @@ public class Util {
 			if (resp.getEntity() == null) {
 				return ("getEntity is null ").getBytes();
 			}
-			try {
-				return EntityUtils.toByteArray(resp.getEntity());
-			} catch(Exception e1) {
-				StringBuilder sb = new StringBuilder();
-				StackTraceElement[]  traces = e1.getCause().getStackTrace();
-				for (StackTraceElement trace : traces) {
-					
-					sb.append(trace.toString());
-				}
-				return ("toByteArray:" + sb).getBytes();
-			}
+			
+			return EntityUtils.toByteArray(resp.getEntity());
+			
 		} catch (Exception e2) {
-			Log.e(TAG, "httpPost exception, e = " + e2.getMessage());
-			StringBuilder sb = new StringBuilder();
-				StackTraceElement[]  traces = e2.getCause().getStackTrace();
-				for (StackTraceElement trace : traces) {
-					
-					sb.append(trace.toString());
-				}
-			return ("errormsg:" + sb.toString()).getBytes();
+			
+			return ("errormsg:" + e2.getMessage()).getBytes();
 		}
 	}
 	

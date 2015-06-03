@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Random;
 
 
+
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin; 
 import org.apache.http.NameValuePair;
@@ -17,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 
+import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Xml;
 
@@ -93,29 +95,9 @@ public class WxPay extends CordovaPlugin {
 		
 		//同一订单接口
 		//Map<String,String> resultUnifiedorder = unifiedorder(ipAddress);
+		GetPrepayIdTask getPrepayId = new GetPrepayIdTask();
+		getPrepayId.execute();
 		
-		String url = String.format("https://api.mch.weixin.qq.com/pay/unifiedorder");
-		
-		String entity = genProductArgs(ipAddress);
-		if (entity == null) {
-			callbackContext.error("genProductArgs is null.");
-			return false;
-		}
-		
-		byte[] buf = Util.httpPost(url, entity);
-		if (buf == null) {
-			callbackContext.error("content is null.");
-			return false;
-		}
-		String content = new String(buf);
-		
-		if (content == null) {
-			callbackContext.error("content is null.");
-			return false;
-		} else {
-			callbackContext.error("content is " + content);
-			return false;
-		}
 		/*
 		Map<String,String> resultUnifiedorder = decodeXml(content);
 		if (resultUnifiedorder == null) {
@@ -135,7 +117,7 @@ public class WxPay extends CordovaPlugin {
 		
 		//currentCallbackContext = callbackContext;
 		
-		//return true;
+		return true;
 	}
 	
 	private Map<String,String>  unifiedorder(String ipAddress) {
@@ -306,6 +288,44 @@ public class WxPay extends CordovaPlugin {
 		}
 		currentCallbackContext = callbackContext;
 		return true;
+	}
+	
+	private class GetPrepayIdTask extends AsyncTask<String, Void, Map<String,String>> {
+
+		@Override
+		protected void onPreExecute() {
+			//dialog = ProgressDialog.show(PayActivity.this, getString(R.string.app_tip), getString(R.string.getting_prepayid));
+		}
+
+		@Override
+		protected void onPostExecute(Map<String,String> result) {
+			
+			result.get("prepay_id");
+			
+
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected Map<String,String>  doInBackground(String... params) {
+
+			String url = String.format("https://api.mch.weixin.qq.com/pay/unifiedorder");
+			String entity = genProductArgs(params[0]);
+
+			Log.e("orion",entity);
+
+			byte[] buf = Util.httpPost(url, entity);
+
+			String content = new String(buf);
+			Log.e("orion", content);
+			Map<String,String> xml=decodeXml(content);
+
+			return xml;
+		}
 	}
 	
 }
