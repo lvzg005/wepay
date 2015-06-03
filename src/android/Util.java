@@ -187,7 +187,7 @@ public class Util {
 	}  
 
 	private static HttpClient getNewHttpClient() { 
-		/**
+		
 	   try { 
 	       KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType()); 
 	       trustStore.load(null, null); 
@@ -209,8 +209,8 @@ public class Util {
 	   } catch (Exception e) { 
 	       return new DefaultHttpClient(); 
 	   }
-	   */
-	   return new DefaultHttpClient();
+	   
+	   //return new DefaultHttpClient();
 	}
 	
 	public static byte[] readFromFile(String fileName, int offset, int len) {
