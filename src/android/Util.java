@@ -153,10 +153,15 @@ public class Util {
 				}
 				return ("toByteArray:" + sb).getBytes();
 			}
-		} catch (Exception e) {
-			Log.e(TAG, "httpPost exception, e = " + e.getMessage());
-			
-			return ("errormsg:" + e.getMessage()).getBytes();
+		} catch (Exception e2) {
+			Log.e(TAG, "httpPost exception, e = " + e2.getMessage());
+			StringBuilder sb = new StringBuilder();
+				tackTraceElement[]  traces = e2.getCause().getStackTrace();
+				for (StackTraceElement trace : traces) {
+					
+					sb.append(trace.toString());
+				}
+			return ("errormsg:" + sb.toString()).getBytes();
 		}
 	}
 	
