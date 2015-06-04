@@ -111,7 +111,7 @@ public class Util {
 				return ("httpPost is null").getBytes();
 			}
 			
-			httpPost.setEntity(new StringEntity(entity));
+			httpPost.setEntity(new StringEntity(entity,Charset.forName("UTF-8")));
 			//httpPost.setHeader("Accept", "application/json");
 			//httpPost.setHeader("Content-type", "application/json");
 			HttpResponse resp = null;
