@@ -153,14 +153,14 @@ public class WxPay extends CordovaPlugin {
 		try {
             List<NameValuePair> packageParams = new LinkedList<NameValuePair>();
 			packageParams.add(new BasicNameValuePair("appid", Constants.WEPAY_APP_ID));
-			packageParams.add(new BasicNameValuePair("body", preferences.getString(PRODUCT_PROPERTY_KEY, "")));
-			packageParams.add(new BasicNameValuePair("detail", preferences.getString(PRO_DESC_PROPERTY_KEY, "")));
+			packageParams.add(new BasicNameValuePair("body", Constants.PRODUCT_INFO));
+			packageParams.add(new BasicNameValuePair("detail", Constants.PRODUCT_DETAIL));
 			packageParams.add(new BasicNameValuePair("mch_id", Constants.MCH_ID));
 			packageParams.add(new BasicNameValuePair("nonce_str", genNonceStr()));
-			packageParams.add(new BasicNameValuePair("notify_url", preferences.getString(NOTIFY_URL_KEY, "")));
+			packageParams.add(new BasicNameValuePair("notify_url", Constants.NOTIFY_URL));
 			packageParams.add(new BasicNameValuePair("out_trade_no",orderNo));
 			packageParams.add(new BasicNameValuePair("spbill_create_ip",ipAddress));
-			packageParams.add(new BasicNameValuePair("total_fee", preferences.getString(AMT_PROPERTY_KEY, "")));
+			packageParams.add(new BasicNameValuePair("total_fee", Constants.TOTAL_AMT));
 			packageParams.add(new BasicNameValuePair("trade_type", "APP"));
 
 			String sign = genPackageSign(packageParams);
