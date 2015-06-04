@@ -89,7 +89,7 @@ public class WxPay extends CordovaPlugin {
 		}
 		
 		String ipAddress = params.getString("ipAddress");
-		String orderNo = params.getString("guarantNo");
+		String orderNo = MD5.getMessageDigest(params.getString("guarantNo").getBytes());;
 		
 		//同一订单接口
 		Map<String,String> resultUnifiedorder = unifiedorder(ipAddress,orderNo);
@@ -102,7 +102,7 @@ public class WxPay extends CordovaPlugin {
 		//调用支付api
 		sendPayReq(req);
 		
-		callbackContext.success("true");
+		callbackContext.success("true,guaranteno:"+orderNo+ ",prepayId:" + prepayId);
 		
 		currentCallbackContext = callbackContext;
 		
