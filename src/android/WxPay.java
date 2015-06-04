@@ -89,7 +89,7 @@ public class WxPay extends CordovaPlugin {
 		}
 		
 		String ipAddress = params.getString("ipAddress");
-		String orderNo = MD5.getMessageDigest(params.getString("guarantNo").getBytes());;
+		String orderNo = params.getString("guarantNo");//MD5.getMessageDigest(params.getString("guarantNo").getBytes());;
 		
 		//同一订单接口
 		Map<String,String> resultUnifiedorder = unifiedorder(ipAddress,orderNo);
