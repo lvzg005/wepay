@@ -94,7 +94,7 @@ public class WxPay extends CordovaPlugin {
 		String ipAddress = params.getString("ipAddress");
 		
 		//同一订单接口
-		//Map<String,String> resultUnifiedorder = unifiedorder(ipAddress);
+		Map<String,String> resultUnifiedorder = unifiedorder(ipAddress);
 		//GetPrepayIdTask getPrepayId = new GetPrepayIdTask();
 		//getPrepayId.execute();
 		
@@ -105,7 +105,7 @@ public class WxPay extends CordovaPlugin {
 			return false;
 		}
 		*/
-		String prepayId = "wx20150603160956ed6d42a5770685772720";//resultUnifiedorder.get("prepay_id");
+		String prepayId = resultUnifiedorder.get("prepay_id");
 		PayReq req = new PayReq();
 		//构造请求参数
 		genPayReq(req,prepayId);
