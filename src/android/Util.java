@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.nio.charset.Charset;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -112,7 +111,7 @@ public class Util {
 				return ("httpPost is null").getBytes();
 			}
 			
-			httpPost.setEntity(new StringEntity(entity,Charset.forName("UTF-8")));
+			httpPost.setEntity(new StringEntity(entity,"UTF-8"));
 			//httpPost.setHeader("Accept", "application/json");
 			//httpPost.setHeader("Content-type", "application/json");
 			HttpResponse resp = null;
