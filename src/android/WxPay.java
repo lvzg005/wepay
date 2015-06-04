@@ -26,12 +26,11 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 public class WxPay extends CordovaPlugin {
 	
-	private static final String TAG = "SDK_WxPay";
-	
-	public static final String WXAPPID_PROPERTY_KEY = "wechatappid";
-	public static final String APPID_PROPERTY_KEY = "appid";
-	public static final String MCHID_PROPERTY_KEY = "mchid";
 	public static final String PRODUCT_PROPERTY_KEY = "product";
+	public static final String PRO_DESC_PROPERTY_KEY = "detail";
+	public static final String AMT_PROPERTY_KEY = "amt";
+	public static final String NOTIFY_URL_KEY = "notifyUrl";
+	
 	public static final String ERROR_WX_NOT_INSTALLED = "尚未安装微信客户端";
 	public static final String ERR_USER_CANCEL = "ERR_USER_CANCEL";
 	public static final String ERR_COMM = "ERR_COMM";
@@ -56,7 +55,7 @@ public class WxPay extends CordovaPlugin {
 	
 	protected IWXAPI getWXAPI() {
 		if (wxAPI == null) {
-			String appId = Constants.WEPAY_APP_ID;//preferences.getString(WXAPPID_PROPERTY_KEY, "");
+			String appId = Constants.WEPAY_APP_ID;
 			wxAPI = WXAPIFactory.createWXAPI(webView.getContext(), appId, true);
 		}
 		return wxAPI;
@@ -90,19 +89,11 @@ public class WxPay extends CordovaPlugin {
 		}
 		
 		String ipAddress = params.getString("ipAddress");
+		String orderNo = params.getString("guarantNo");
 		
 		//同一订单接口
-		Map<String,String> resultUnifiedorder = unifiedorder(ipAddress);
-		//GetPrepayIdTask getPrepayId = new GetPrepayIdTask();
-		//getPrepayId.execute();
+		Map<String,String> resultUnifiedorder = unifiedorder(ipAddress,orderNo);
 		
-		/*
-		Map<String,String> resultUnifiedorder = decodeXml(content);
-		if (resultUnifiedorder == null) {
-			callbackContext.error("resultUnifiedorder is null.");
-			return false;
-		}
-		*/
 		String prepayId = resultUnifiedorder.get("prepay_id");
 		PayReq req = new PayReq();
 		//构造请求参数
@@ -111,7 +102,6 @@ public class WxPay extends CordovaPlugin {
 		//调用支付api
 		sendPayReq(req);
 		
-		
 		callbackContext.success("true");
 		
 		currentCallbackContext = callbackContext;
@@ -119,11 +109,11 @@ public class WxPay extends CordovaPlugin {
 		return true;
 	}
 	
-	private Map<String,String>  unifiedorder(String ipAddress) {
+	private Map<String,String>  unifiedorder(String ipAddress,String orderNo) {
 
 		String url = String.format("https://api.mch.weixin.qq.com/pay/unifiedorder");
 		
-		String entity = genProductArgs(ipAddress);
+		String entity = genProductArgs(ipAddress,orderNo);
 
 		byte[] buf = Util.httpPost(url, entity);
 
@@ -152,27 +142,25 @@ public class WxPay extends CordovaPlugin {
 		signParams.add(new BasicNameValuePair("timestamp", req.timeStamp));
 
 		req.sign = genPackageSign(signParams);
-
-		
-
 	}
+	
 	private void sendPayReq(PayReq req) {
-		getWXAPI().registerApp(Constants.APP_ID);
+		getWXAPI().registerApp(Constants.WEPAY_APP_ID);
 		getWXAPI().sendReq(req);
 	}
 	
-	private String genProductArgs(String ipAddress) {
+	private String genProductArgs(String ipAddress,String orderNo) {
 		try {
             List<NameValuePair> packageParams = new LinkedList<NameValuePair>();
 			packageParams.add(new BasicNameValuePair("appid", Constants.WEPAY_APP_ID));
-			packageParams.add(new BasicNameValuePair("body", Constants.PRODUCT_INFO));
-			packageParams.add(new BasicNameValuePair("detail", Constants.PRODUCT_DETAIL));
+			packageParams.add(new BasicNameValuePair("body", preferences.getString(PRODUCT_PROPERTY_KEY, "")));
+			packageParams.add(new BasicNameValuePair("detail", preferences.getString(PRO_DESC_PROPERTY_KEY, "")));
 			packageParams.add(new BasicNameValuePair("mch_id", Constants.MCH_ID));
 			packageParams.add(new BasicNameValuePair("nonce_str", genNonceStr()));
-			packageParams.add(new BasicNameValuePair("notify_url", Constants.NOTIFY_URL));
-			packageParams.add(new BasicNameValuePair("out_trade_no",genOutTradNo()));
+			packageParams.add(new BasicNameValuePair("notify_url", preferences.getString(NOTIFY_URL_KEY, "")));
+			packageParams.add(new BasicNameValuePair("out_trade_no",orderNo));
 			packageParams.add(new BasicNameValuePair("spbill_create_ip",ipAddress));
-			packageParams.add(new BasicNameValuePair("total_fee", Constants.TOTAL_AMT));
+			packageParams.add(new BasicNameValuePair("total_fee", preferences.getString(AMT_PROPERTY_KEY, "")));
 			packageParams.add(new BasicNameValuePair("trade_type", "APP"));
 
 			String sign = genPackageSign(packageParams);
@@ -196,10 +184,6 @@ public class WxPay extends CordovaPlugin {
 		return System.currentTimeMillis() / 1000;
 	}
 	
-	private String genOutTradNo() {
-		Random random = new Random();
-		return MD5.getMessageDigest(String.valueOf(random.nextInt(10000)).getBytes());
-	}
 	
 	/**
 	 * from XML to Map
@@ -289,42 +273,5 @@ public class WxPay extends CordovaPlugin {
 		return true;
 	}
 	
-	private class GetPrepayIdTask extends AsyncTask<String, Void, Map<String,String>> {
-
-		@Override
-		protected void onPreExecute() {
-			//dialog = ProgressDialog.show(PayActivity.this, getString(R.string.app_tip), getString(R.string.getting_prepayid));
-		}
-
-		@Override
-		protected void onPostExecute(Map<String,String> result) {
-			
-			result.get("prepay_id");
-			
-
-		}
-
-		@Override
-		protected void onCancelled() {
-			super.onCancelled();
-		}
-
-		@Override
-		protected Map<String,String>  doInBackground(String... params) {
-
-			String url = String.format("https://api.mch.weixin.qq.com/pay/unifiedorder");
-			String entity = genProductArgs(params[0]);
-
-			Log.e("orion",entity);
-
-			byte[] buf = Util.httpPost(url, entity);
-
-			String content = new String(buf);
-			Log.e("orion", content);
-			Map<String,String> xml=decodeXml(content);
-
-			return xml;
-		}
-	}
 	
 }
